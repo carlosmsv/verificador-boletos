@@ -19,14 +19,14 @@ describe('CodigoDeBarrasValidator', () => {
   });
 
   describe('Dado um valor para o código de barras', () => {
-    describe('Quando o valor contém apenas números', () => {
+    describe('Quando o valor contém apenas números, e 44 caracteres', () => {
       const value = '12345678901234567890123456789012345678901234';
       it('Deve retornar o valor passado', () => {
         expect(validator.transform(value, {} as any)).toBe<string>(value);
       });
     });
 
-    describe('Quando o código de barras tem tamanho MENOR do que 44 caracteres', () => {
+    describe('Quando o código de barras contém apenas números, e tamanho MENOR do que 44 caracteres', () => {
       const value = '1234567890123456789012345678901234567890123';
       it('deve lançar uma exceção do tipo Bad Request com o erro de Menor-Que-44', () => {
         expect(() => validator.transform(value, {} as any)).toThrowError(
@@ -43,5 +43,15 @@ describe('CodigoDeBarrasValidator', () => {
         );
       });
     });
+
+    describe('Quando o código de barras contém caracteres que não são números', () => {
+      const value = 'a1234560123abc123444dasdasd';
+      it('deve lançar uma exceção do tipo Bad Request com o erro de Não-Numérico', () => {
+        expect(() => validator.transform(value, {} as any)).toThrow(
+          new BadRequestException(ErrorMessages.NAO_NUMERICO),
+        );
+      });
+    });
+
   });
 });
