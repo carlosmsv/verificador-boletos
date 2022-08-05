@@ -1,8 +1,7 @@
-import { BadRequestException, ClassSerializerInterceptor, Type, Get, UseInterceptors, Param, Controller } from '@nestjs/common';
+import { ClassSerializerInterceptor, Get, UseInterceptors, Param, Controller } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { BoletosService } from './boletos.service';
 import { BoletoDto } from './dto/boleto.dto';
-import { ErrorMessages } from './validators/errorMessages.enum';
 import { CodigoDeBarrasErrorResponseDto } from './validators/codigo-de-barras.errors.dto';
 import { CodigoDeBarrasValidator } from './validators/codigo-de-barras.validator'
 
@@ -23,6 +22,6 @@ export class BoletosController {
     type: CodigoDeBarrasErrorResponseDto,
   })
   getInfo(@Param('codigoDeBarras', CodigoDeBarrasValidator) codigoDeBarras: string): BoletoDto {
-    return new BoletoDto({ barCode: codigoDeBarras, amount: 20.01, expirationDate: new Date() });
+    return this.boletosService.lerCodigoDeBarras(codigoDeBarras)
   }
 }

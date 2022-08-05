@@ -12,8 +12,8 @@ export class Convenio {
   cnpjMF: string;
   campoLivre: string;
 
-  getValor(): number {
-    return Number(this.valor) / 100;
+  getValor(): string {
+    return (Number(this.valor) / 100).toFixed(2);
   }
 
 }
