@@ -12,7 +12,7 @@ export class BoletosController {
   constructor(private readonly boletosService: BoletosService) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get(':codigo')
+  @Get(':codigoDeBarras')
   @ApiOkResponse({
     status: 200,
     type: BoletoDto,
@@ -22,7 +22,7 @@ export class BoletosController {
     description: 'Bad Request: Código de barras inválido',
     type: CodigoDeBarrasErrorResponseDto,
   })
-  getInfo(@Param('codigo', CodigoDeBarrasValidator) barCode: string): BoletoDto {
-    return new BoletoDto({ barCode, amount: 20.01, expirationDate: new Date() });
+  getInfo(@Param('codigoDeBarras', CodigoDeBarrasValidator) codigoDeBarras: string): BoletoDto {
+    return new BoletoDto({ barCode: codigoDeBarras, amount: 20.01, expirationDate: new Date() });
   }
 }
