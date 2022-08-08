@@ -1,5 +1,5 @@
 export enum ErrorMessages {
-  MAIOR_QUE_44 = 'Código de barras maior do que o esperado (44 dígitos)',
-  MENOR_QUE_44 = 'Código de barras menor do que o esperado (44 dígitos)',
-  NAO_NUMERICO = 'O código de barras deve conter apenas números',
+  MAIOR_QUE_NORMAL = 'Linha digitável maior do que o esperado',
+  MENOR_QUE_NORMAL = 'Linha digitável menor do que o esperado',
+  NAO_NUMERICO = 'A linha digitável deve conter apenas números',
 }

@@ -2,8 +2,8 @@ import { ClassSerializerInterceptor, Get, UseInterceptors, Param, Controller } f
 import { ApiBadRequestResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { BoletosService } from './boletos.service';
 import { BoletoDto } from './dto/boleto.dto';
-import { CodigoDeBarrasErrorResponseDto } from './validators/codigo-de-barras.errors.dto';
-import { CodigoDeBarrasValidator } from './validators/codigo-de-barras.validator'
+import { LinhaDigitavelErrorResponseDto } from './validators/linha-digitavel.errors.dto';
+import { LinhaDigitavelValidator } from './validators/linha-digitavel.validator'
 
 @Controller('boleto')
 @ApiTags('Boletos')
@@ -11,17 +11,17 @@ export class BoletosController {
   constructor(private readonly boletosService: BoletosService) {}
 
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get(':codigoDeBarras')
+  @Get(':LinhaDigitavel')
   @ApiOkResponse({
     status: 200,
     type: BoletoDto,
     description: 'OK: Retorna as informações do boleto',
   })
   @ApiBadRequestResponse({
-    description: 'Bad Request: Código de barras inválido',
-    type: CodigoDeBarrasErrorResponseDto,
+    description: 'Bad Request: Linha digitável inválida',
+    type: LinhaDigitavelErrorResponseDto,
   })
-  getInfo(@Param('codigoDeBarras', CodigoDeBarrasValidator) codigoDeBarras: string): BoletoDto {
-    return this.boletosService.lerCodigoDeBarras(codigoDeBarras)
+  getInfo(@Param('LinhaDigitavel', LinhaDigitavelValidator) LinhaDigitavel: string): BoletoDto {
+    return this.boletosService.lerLinhaDigitavel(LinhaDigitavel)
   }
 }

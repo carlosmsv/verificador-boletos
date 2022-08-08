@@ -5,44 +5,44 @@ import { BoletoDto } from './dto/boleto.dto';
 
 @Injectable()
 export class BoletosService {
-  lerCodigoDeBarras(codigoDeBarras: string): BoletoDto {
-    if (codigoDeBarras[0] === '8') {
-      return this.lerConvenio(codigoDeBarras);
+  lerLinhaDigitavel(linhaDigitavel: string): BoletoDto {
+    if (linhaDigitavel[0] === '8') {
+      return this.lerConvenio(linhaDigitavel);
     }
-    return this.lerTitulo(codigoDeBarras);
+    return this.lerTitulo(linhaDigitavel);
   }
 
-  private lerConvenio(codigoDeBarras: string): BoletoDto {
+  private lerConvenio(linhaDigitavel: string): BoletoDto {
     const convenio = new Convenio({
-      produto: codigoDeBarras[0],
-      segmento: codigoDeBarras[1],
-      identificadorValorEfetivoOuReferencia: codigoDeBarras[2],
-      digitoVerificador: codigoDeBarras[3],
-      valor: codigoDeBarras.slice(4, 15),
-      empresaOrgao: codigoDeBarras.slice(15, 19),
-      cnpjMF: codigoDeBarras.slice(15, 23),
-      campoLivre: codigoDeBarras.slice(22),
+      produto: linhaDigitavel[0],
+      segmento: linhaDigitavel[1],
+      identificadorValorEfetivoOuReferencia: linhaDigitavel[2],
+      digitoVerificador: linhaDigitavel[3],
+      valor: linhaDigitavel.slice(4, 15),
+      empresaOrgao: linhaDigitavel.slice(15, 19),
+      cnpjMF: linhaDigitavel.slice(15, 23),
+      campoLivre: linhaDigitavel.slice(22),
     });
 
     return new BoletoDto({
       amount: convenio.getValor(),
-      barCode: codigoDeBarras,
+      barCode: linhaDigitavel,
     });
   }
 
-  private lerTitulo(codigoDeBarras: string): BoletoDto {
+  private lerTitulo(linhaDigitavel: string): BoletoDto {
     const boleto = new Titulo({
-      codigoDoBanco: codigoDeBarras.slice(0, 3),
-      codigoDaMoeda: codigoDeBarras[3],
-      digitoVerificador: codigoDeBarras[4],
-      fatorDeVencimento: codigoDeBarras.slice(5, 9),
-      valor: codigoDeBarras.slice(9, 19),
-      campoLivre: codigoDeBarras.slice(18),
+      codigoDoBanco: linhaDigitavel.slice(0, 3),
+      codigoDaMoeda: linhaDigitavel[3],
+      digitoVerificador: linhaDigitavel[4],
+      fatorDeVencimento: linhaDigitavel.slice(5, 9),
+      valor: linhaDigitavel.slice(9, 19),
+      campoLivre: linhaDigitavel.slice(18),
     });
 
     return new BoletoDto({
       amount: boleto.getValor(),
-      barCode: codigoDeBarras,
+      barCode: linhaDigitavel,
       expirationDate: boleto.getDataDeVencimento(),
     });
   }

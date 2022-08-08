@@ -2,7 +2,7 @@ import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from
 import { ErrorMessages } from './errorMessages.enum';
 
 @Injectable()
-export class CodigoDeBarrasValidator implements PipeTransform {
+export class LinhaDigitavelValidator implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
     const valorNaoNumerico = (value as string).search(/[^0-9]/) !== -1;
     
@@ -11,11 +11,11 @@ export class CodigoDeBarrasValidator implements PipeTransform {
     }
 
     const length = [...value].length;
-    if (length !== 44) {
-      if (length > 44) {
-        throw new BadRequestException(ErrorMessages.MAIOR_QUE_44);
+    if (length !== 47 && length!== 48) {
+      if (length > 48) {
+        throw new BadRequestException(ErrorMessages.MAIOR_QUE_NORMAL);
       }
-      throw new BadRequestException(ErrorMessages.MENOR_QUE_44);
+      throw new BadRequestException(ErrorMessages.MENOR_QUE_NORMAL);
     }
     
     return value;
