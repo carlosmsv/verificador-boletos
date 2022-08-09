@@ -6,7 +6,7 @@ export class LinhaDigitavelValidator implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
     const valorNaoNumerico = (value as string).search(/[^0-9]/) !== -1;
     
-    if (!!valorNaoNumerico) {
+    if (valorNaoNumerico) {
       throw new BadRequestException(ErrorMessages.NAO_NUMERICO);
     }
 
